@@ -3,21 +3,27 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Docsify</title>
+  <title>File Directory</title>
 </head>
 <body>
-  <!-- Docsify 渲染容器 -->
-  <div id="app"></div>
+  <h1>项目文件列表</h1>
+  <ul id="file-list"></ul>
 
-  <!-- Docsify 初始化配置 -->
   <script>
-    window.$docsify = {
-      name: 'frontend-knowledge-summary',
-      repo: 'https://github.com/konglingwen94/frontend-knowledge-summary'
-    };
+    const repo = 'konglingwen94/frontend-knowledge-summary'; // 替换为你的仓库名称
+    fetch(`https://api.github.com/repos/${repo}/contents`)
+      .then(response => response.json())
+      .then(data => {
+        const fileList = document.getElementById('file-list');
+        data.forEach(file => {
+          const li = document.createElement('li');
+          const a = document.createElement('a');
+          a.href = file.download_url || file.html_url;
+          a.textContent = file.name;
+          li.appendChild(a);
+          fileList.appendChild(li);
+        });
+      });
   </script>
-
-  <!-- Docsify 脚本放在最后 -->
-  <script src="https://cdn.jsdelivr.net/npm/docsify/lib/docsify.min.js"></script>
 </body>
 </html>
