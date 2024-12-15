@@ -30,33 +30,28 @@
     <ul id="file-list"></ul>
 
     <script>
-        const repo = 'konglingwen94/frontend-knowledge-summary'; // 仓库名称
-        const apiBase = `https://api.github.com/repos/${repo}/contents`;
+        const username = 'konglingwen94';
+        const repoName = 'frontend-knowledge-summary';
+        const pagesBaseUrl = `https://${username}.github.io/${repoName}`;
 
         // 加载目录内容
         function loadDirectory(path = '', container) {
-            fetch(`${apiBase}/${path}`)
+            fetch(`https://api.github.com/repos/${username}/${repoName}/contents/${path}`)
                 .then(response => response.json())
                 .then(data => {
                     data.forEach(item => {
                         const li = document.createElement('li');
                         const a = document.createElement('a');
-                        // a.href = item.download_url || '#';
+
+                        // 判断是目录还是文件
                         if (item.type === 'dir') {
-                            a.href = `${item.path}/`; // 指向子目录路径
-                            a.style.fontWeight = 'bold'; // 区分目录
-                        } else {
-                            a.href = item.download_url; // 指向文件下载地址
-                        }
+                            a.href = `${pagesBaseUrl}/${item.path}/`; // 指向 GitHub Pages 的子目录
+                            a.textContent = `📁 ${item.name}`; // 添加目录图标
+                            a.style.fontWeight = 'bold';
 
-
-                        a.textContent = item.name;
-
-                        if (item.type === 'dir') {
-                            // 如果是目录，设置点击事件加载子目录
-                            a.style.fontWeight = 'bold'; // 区分目录和文件
+                            // 绑定点击事件，加载子目录（可选）
                             a.addEventListener('click', (e) => {
-                                e.preventDefault(); // 阻止默认链接行为
+                                e.preventDefault();
                                 if (!li.querySelector('ul')) {
                                     const subList = document.createElement('ul');
                                     li.appendChild(subList);
@@ -64,8 +59,9 @@
                                 }
                             });
                         } else {
-                            // 如果是文件，设置直接下载链接
-                            a.target = '_blank';
+                            a.href = `${pagesBaseUrl}/${item.path}`; // 指向 GitHub Pages 上的文件地址
+                            a.textContent = `📄 ${item.name}`; // 添加文件图标
+                            a.target = '_blank'; // 在新标签页打开文件
                         }
 
                         li.appendChild(a);
@@ -80,6 +76,7 @@
             const fileList = document.getElementById('file-list');
             loadDirectory('', fileList);
         });
+
     </script>
 </body>
 
