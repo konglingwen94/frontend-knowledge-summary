@@ -2,7 +2,13 @@
 
 以下是对这段 HTML5 文件代码的讲解文章：
 
+> online preview
 >https://konglingwen94.github.io/frontend-knowledge-summary/%E5%88%9D%E5%AD%A6%20line-height%20%E5%B1%9E%E6%80%A7%E5%B0%8F%E6%A1%88%E4%BE%8B%E8%A7%A3%E6%9E%90.html
+
+
+> source code
+>https://github.com/konglingwen94/frontend-knowledge-summary/blob/master/%E5%88%9D%E5%AD%A6%20line-height%20%E5%B1%9E%E6%80%A7%E5%B0%8F%E6%A1%88%E4%BE%8B%E8%A7%A3%E6%9E%90.html
+
 
 ### HTML5 文件结构分析
 
@@ -156,6 +162,3 @@
 这段代码通过结合 HTML、CSS 和 JavaScript，实现了一个功能丰富的文本样式调整器。用户可以通过简单的交互操作，动态更改文本的外观，了解 CSS 中 `line-height` 和其他属性的实际效果。这种实时反馈的设计不仅提升了用户体验，也为学习 CSS 提供了直观的方式。
 
 
-
-> source code
->https://github.com/konglingwen94/frontend-knowledge-summary/blob/master/%E5%88%9D%E5%AD%A6%20line-height%20%E5%B1%9E%E6%80%A7%E5%B0%8F%E6%A1%88%E4%BE%8B%E8%A7%A3%E6%9E%90.html
