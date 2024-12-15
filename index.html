@@ -4,26 +4,69 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>File Directory</title>
+  <style>
+    ul {
+      list-style-type: none;
+    }
+    li {
+      margin: 5px 0;
+    }
+    a {
+      text-decoration: none;
+      color: #007BFF;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
 </head>
 <body>
   <h1>项目文件列表</h1>
   <ul id="file-list"></ul>
 
   <script>
-    const repo = 'konglingwen94/frontend-knowledge-summary'; // 替换为你的仓库名称
-    fetch(`https://api.github.com/repos/${repo}/contents`)
-      .then(response => response.json())
-      .then(data => {
-        const fileList = document.getElementById('file-list');
-        data.forEach(file => {
-          const li = document.createElement('li');
-          const a = document.createElement('a');
-          a.href = file.download_url || file.html_url;
-          a.textContent = file.name;
-          li.appendChild(a);
-          fileList.appendChild(li);
-        });
-      });
+    const repo = 'konglingwen94/frontend-knowledge-summary'; // 仓库名称
+    const apiBase = `https://api.github.com/repos/${repo}/contents`;
+
+    // 加载目录内容
+    function loadDirectory(path = '', container) {
+      fetch(`${apiBase}/${path}`)
+        .then(response => response.json())
+        .then(data => {
+          data.forEach(item => {
+            const li = document.createElement('li');
+            const a = document.createElement('a');
+            a.href = item.download_url || '#';
+            a.textContent = item.name;
+
+            if (item.type === 'dir') {
+              // 如果是目录，设置点击事件加载子目录
+              a.style.fontWeight = 'bold'; // 区分目录和文件
+              a.addEventListener('click', (e) => {
+                e.preventDefault(); // 阻止默认链接行为
+                if (!li.querySelector('ul')) {
+                  const subList = document.createElement('ul');
+                  li.appendChild(subList);
+                  loadDirectory(item.path, subList);
+                }
+              });
+            } else {
+              // 如果是文件，设置直接下载链接
+              a.target = '_blank';
+            }
+
+            li.appendChild(a);
+            container.appendChild(li);
+          });
+        })
+        .catch(err => console.error('Error loading directory:', err));
+    }
+
+    // 初始化加载根目录
+    document.addEventListener('DOMContentLoaded', () => {
+      const fileList = document.getElementById('file-list');
+      loadDirectory('', fileList);
+    });
   </script>
 </body>
 </html>
