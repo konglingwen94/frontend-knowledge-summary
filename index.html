@@ -50,12 +50,31 @@
                             a.style.fontWeight = 'bold';
 
                             // 绑定点击事件，加载子目录（可选）
+                            let isExpand
+                            let subList
                             a.addEventListener('click', (e) => {
                                 e.preventDefault();
-                                if (!li.querySelector('ul')) {
-                                    const subList = document.createElement('ul');
+
+                                if (!subList) {
+                                    subList = document.createElement('ul');
+
                                     li.appendChild(subList);
                                     loadDirectory(item.path, subList);
+
+                                    isExpand = true
+                                } else {
+                                    if (isExpand) {
+                                        
+                                        subList.style.display = 'none'
+                                        isExpand = false
+                                    } else {
+                                        
+                                        subList.style.removeProperty('display')
+                                        isExpand = true
+                                        
+                                    }
+
+
                                 }
                             });
                         } else {
